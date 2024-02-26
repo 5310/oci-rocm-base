@@ -2,7 +2,7 @@
 
 podman build --tag rocm-base - < Containerfile
 
-DIR=./app
+DIR=${1:-./app}
 mkdir -p "$DIR"
 podman run -it --rm \
     --name rocm \
