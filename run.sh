@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENGINE=docker
+ENGINE=podman
 VOLUME=${1:-./volume}
 
 $ENGINE build --tag rocm-base - < Containerfile
