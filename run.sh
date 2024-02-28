@@ -1,12 +1,11 @@
 #!/bin/bash
 
 VOLUME=${1:-'./volume'}
-ENGINE=docker
 
-$ENGINE build --tag rocm-base - < Containerfile
+podman build --tag rocm-base - < Containerfile
 
 mkdir -p "$VOLUME"
-$ENGINE run -it --rm \
+podman run -it --rm \
     --name rocm \
     --group-add video \
     --group-add render \
