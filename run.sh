@@ -8,10 +8,10 @@ $ENGINE build --tag rocm-base - < Containerfile
 mkdir -p "$VOLUME"
 $ENGINE run -it --rm \
     --name rocm \
-    `#--group-add video` \
-    `#--group-add render` \
-    `#--device /dev/kfd:/dev/kfd` \
-    `#--device /dev/dri:/dev/dri` \
+    --group-add video \
+    --group-add render \
+    --device /dev/kfd:/dev/kfd \
+    --device /dev/dri:/dev/dri \
     -v "$VOLUME":/root/volume \
     -w "/root/volume/app" \
     \
