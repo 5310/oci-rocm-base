@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VOLUME=${1:-./volume}
+VOLUME=${1:-'./volume'}
 ENGINE=docker
 
 $ENGINE build --tag rocm-base - < Containerfile
@@ -26,7 +26,7 @@ $ENGINE run -it --rm \
     -e SDWEBUI_NAME='sdwebui' \
     -e SDWEBUI_REPO='https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh' \
     -e SDWEBUI_ARGS='-f --listen --enable-insecure-extension-access --data-dir /root/volume/library --no-download-sd-model  --precision full --no-half --opt-sub-quad-attention' \
-    -e SDWEBUI_RUN='
+    -e SDWEBUI_INIT='
         curl -sSL -f "$SDWEBUI_REPO" | 
             clone_dir="$SDWEBUI_NAME" 
             venv_dir="$VENV_DIR" 
@@ -38,7 +38,7 @@ $ENGINE run -it --rm \
     -e COMFYUI_NAME='comfyui' \
     -e COMFYUI_REPO='https://github.com/comfyanonymous/ComfyUI' \
     -e COMFYUI_ARGS='--listen 0.0.0.0 --disable-auto-launch --dont-upcast-attention `#--force-fp16` `#--fp16-vae` `#--fp32-vae` `#--cpu-vae` `#--lowvram`' \
-    -e COMFYUI_RUN='
+    -e COMFYUI_INIT='
         if [ ! -e "$COMFYUI_NAME" ]; then
             git clone --depth 1 "$COMFYUI_REPO" "$COMFYUI_NAME";
         fi;
@@ -50,4 +50,4 @@ $ENGINE run -it --rm \
     ' \
     \
     rocm-base \
-    bash -c 'eval $COMFYUI_RUN'
+    bash -c 'eval $COMFYUI_INIT'
