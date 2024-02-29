@@ -43,7 +43,7 @@ podman run -it --rm \
         fi;
         cd "$COMFYUI_NAME";
         python3 -m venv "$VENV_DIR";
-        "$VENV_DIR/bin/activate";
+        source "$VENV_DIR/bin/activate";
         pip install --pre torch torchvision torchaudio --index-url "$PYTORCH_REPO";
         pip install -r requirements.txt;
         python3 main.py $COMFYUI_ARGS;
