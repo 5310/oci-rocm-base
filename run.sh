@@ -36,13 +36,14 @@ podman run -it --rm \
     -p 8188:8188 \
     -e COMFYUI_NAME='comfyui' \
     -e COMFYUI_REPO='https://github.com/comfyanonymous/ComfyUI' \
-    -e COMFYUI_ARGS='--listen 0.0.0.0 --disable-auto-launch --dont-upcast-attention `#--force-fp16` `#--fp16-vae` `#--fp32-vae` `#--cpu-vae` `#--lowvram`' \
+    -e COMFYUI_ARGS='--listen 0.0.0.0 --disable-auto-launch --dont-upcast-attention' \
     -e COMFYUI_INIT='
         if [ ! -e "$COMFYUI_NAME" ]; then
             git clone --depth 1 "$COMFYUI_REPO" "$COMFYUI_NAME";
         fi;
         cd "$COMFYUI_NAME";
         python3 -m venv "$VENV_DIR";
+        "$VENV_DIR/bin/activate";
         pip install --pre torch torchvision torchaudio --index-url "$PYTORCH_REPO";
         pip install -r requirements.txt;
         python3 main.py $COMFYUI_ARGS;
