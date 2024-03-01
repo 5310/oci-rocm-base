@@ -29,7 +29,6 @@ RUN <<-EOR
 	ln -s /opt/zellij /usr/local/bin/
 	cat <<-EOF >~/.zellijrc.kdl
 		default_shell "bash"
-		default_mode "locked"
 		mirror_session true
 		mouse_mode true
 		layout {
