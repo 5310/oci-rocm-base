@@ -8,11 +8,12 @@ podman build --tag rocm-base - < Containerfile
 mkdir -p "$VOLUME"
 podman run -ditq --rm \
     --name $NAME \
-    --hostname $NAME \
     --group-add video \
     --group-add render \
+    --device /dev/kfd:/dev/kfd \
+    --device /dev/dri:/dev/dri \
     -w "/root" \
-    -v "$VOLUME":/root/volume \
+    -v "$VOLUME":/root/volume:U,z \
     \
     `# common` \
     -e VENV_DIR='/root/volume/environment/venv' \
