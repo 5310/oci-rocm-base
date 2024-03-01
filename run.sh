@@ -1,18 +1,18 @@
 #!/bin/bash
 
 VOLUME=${1:-'./volume'}
+NAME=${2:-'rocm'}
 
 podman build --tag rocm-base - < Containerfile
 
 mkdir -p "$VOLUME"
-podman run -it --rm \
-    --name rocm \
+podman run -ditq --rm \
+    --name $NAME \
+    --hostname $NAME \
     --group-add video \
     --group-add render \
-    --device /dev/kfd:/dev/kfd \
-    --device /dev/dri:/dev/dri \
+    -w "/root" \
     -v "$VOLUME":/root/volume \
-    -w "/root/volume/app" \
     \
     `# common` \
     -e VENV_DIR='/root/volume/environment/venv' \
@@ -51,3 +51,5 @@ podman run -it --rm \
     \
     rocm-base \
     bash -c 'eval $COMFYUI_INIT'
+
+podman attach $NAME
