@@ -1,5 +1,7 @@
 FROM docker.io/rocm/dev-ubuntu-22.04:latest
 
+SHELL [ "/bin/bash" ]
+
 RUN <<-EOR
 	apt-get update
 	apt-get install -y bash curl tar nano git python3.10-venv libgoogle-perftools-dev
