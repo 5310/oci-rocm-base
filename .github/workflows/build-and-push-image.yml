@@ -25,6 +25,10 @@ jobs:
       - name: Checkout Push to Registry action
         uses: actions/checkout@v2
 
+      - name: Generate Tag
+        run: |
+          IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)
+          
       - name: Install fresh Podman
         uses: gacts/install-podman@v1
 
@@ -32,13 +36,14 @@ jobs:
         id: build
         run: |
           podman --version
-          podman build --tag $IMAGE_NAME:$(git rev-parse --short $GITHUB_SHA) .
+          podman build --tag $IMAGE_NAME:$IMAGE_TAG .
         
       - name: Push To Registry
         uses: redhat-actions/push-to-registry@v2
         id: push
         with:
           image: ${{ env.IMAGE_NAME }}
+          tags: latest ${{ env.IMAGE_TAG }}
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
