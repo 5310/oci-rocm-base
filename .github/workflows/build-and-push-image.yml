@@ -25,11 +25,12 @@ jobs:
       - name: Checkout Push to Registry action
         uses: actions/checkout@v2
 
+      - name: Install fresh Podman
+        uses: gacts/install-podman@v1
+
       - name: Build Image
         id: build
         run: |
-          sudo apt-get update
-          sudo apt-get install --only-upgrade podman
           podman --version
           podman build --tag $IMAGE_NAME:$(git rev-parse --short $GITHUB_SHA) .
         
