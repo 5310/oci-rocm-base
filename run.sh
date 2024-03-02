@@ -3,7 +3,7 @@
 VOLUME=${1:-'./volume'}
 NAME=${2:-'rocm'}
 
-podman build --tag rocm-base - < Containerfile
+podman build --no-cache --tag rocm-base - < Containerfile
 
 mkdir -p "$VOLUME"
 podman run -ditq --rm \
