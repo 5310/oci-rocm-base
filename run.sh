@@ -89,7 +89,7 @@ case $APP in
 			EOF
 			git clone --depth 1 "$COMFYUI_REPO" "$COMFYUI_NAME"
 			if [ ! -e "custom_nodes/ComfyUI-Manager" ]; then
-				git clone --depth 1 "$COMFYUI_MANAGER_REPO" custom_nodes/ComfyUI-Manager
+				git clone --depth 1 "$COMFYUI_MANAGER_REPO" "custom_nodes/ComfyUI-Manager"
 			fi
 			python3 -m venv "$VENV_DIR"
 			source "$VENV_DIR/bin/activate"
