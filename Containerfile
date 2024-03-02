@@ -68,7 +68,10 @@ RUN <<-EOR
 				pane focus=true {
 					children
 				}
-				pane size=10 borderless=true name="rocm-smi" command="/opt/rocm/bin/rocm-smi"
+				pane size=10 borderless=true name="rocm-smi" {
+					command "watch"
+					args "/opt/rocm/bin/rocm-smi"
+				}
 				pane size=1 borderless=true {
 					plugin location="zellij:compact-bar"
 				}
