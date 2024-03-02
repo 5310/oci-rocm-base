@@ -1,8 +1,8 @@
-FROM docker.io/rocm/dev-ubuntu-22.04:latest as deps
+FROM docker.io/rocm/dev-ubuntu-22.04:latest as deps-sd
 
 RUN <<-EOR
 	apt-get update
-	apt-get install -y nano git python3.10-venv libgoogle-perftools-dev
+	apt-get install -y bash curl tar nano git python3.10-venv libgoogle-perftools-dev
 	apt-get clean
 	rm -rf /var/lib/apt/lists/*
 EOR
@@ -19,6 +19,9 @@ RUN <<-EOR
 	chmod +x /opt/caddy
 	ln -s /opt/caddy /usr/local/bin/
 EOR
+
+EXPOSE 80
+EXPOSE 443
 
 FROM caddy as zellij
 
