@@ -1,4 +1,4 @@
-FROM docker.io/rocm/dev-ubuntu-22.04:latest as deps-sd
+FROM docker.io/rocm/dev-ubuntu-22.04:latest
 
 RUN <<-EOR
 	apt-get update
@@ -10,20 +10,41 @@ EOR
 ENV LD_PRELOAD=libtcmalloc.so
 ENV PIP_NO_CACHE_DIR=true
 
-FROM deps as caddy
-
 ARG CADDY_REPO="https://caddyserver.com/api/download?os=linux&arch=amd64"
 
 RUN <<-EOR
-	curl -o /opt/caddy  --location "$CADDY_REPO"
+	curl -o /opt/caddy --location "$CADDY_REPO"
 	chmod +x /opt/caddy
 	ln -s /opt/caddy /usr/local/bin/
+	mkdir -p /etc/caddy/
+	<<-EOF > /etc/caddy/Caddyfile
+		respond "Hullo world!"
+	EOF
+	mkdir -p /etc/systemd/system/
+	<<-EOF > /etc/systemd/system/caddy.service
+		[Unit]
+		Description=Caddy
+		Documentation=https://caddyserver.com/docs/
+		After=network.target network-online.target
+		Requires=network-online.target
+
+		[Service]
+		Type=notify
+		ExecStart=/usr/local/bin/caddy run --environ --config /etc/caddy/Caddyfile
+		ExecReload=/usr/local/bin/caddy reload --config /etc/caddy/Caddyfile --force
+		TimeoutStopSec=5s
+		LimitNOFILE=1048576
+		PrivateTmp=true
+		ProtectSystem=full
+		AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+
+		[Install]
+		WantedBy=multi-user.target
+	EOF
 EOR
 
 EXPOSE 80
 EXPOSE 443
-
-FROM caddy as zellij
 
 ARG ZELLIJ_REPO="https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz"
 
@@ -47,7 +68,7 @@ RUN <<-EOR
 				pane focus=true stacked=true {
 					children
 				}
-				pane size=8 borderless=true command="htop"
+				pane size=10 borderless=true command="/opt/rocm/bin/rocm-smi"
 				pane size=1 borderless=true {
 					plugin location="zellij:compact-bar"
 				}
