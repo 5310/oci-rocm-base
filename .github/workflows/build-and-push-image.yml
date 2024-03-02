@@ -43,7 +43,7 @@ jobs:
         id: push
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: latest ${{ env.IMAGE_TAG }}
+          tags: ${{ env.IMAGE_TAG }}
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
