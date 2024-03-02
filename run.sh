@@ -76,7 +76,7 @@ case $APP in
 			cd "$COMFYUI_NAME"
 			<<-EOF > extra_model_paths.yaml
 				a111:
-					base_path: /root/volume/image
+					base_path: /root/volume/library
 					checkpoints: models/Stable-diffusion
 					configs: models/Stable-diffusion
 					vae: models/VAE
