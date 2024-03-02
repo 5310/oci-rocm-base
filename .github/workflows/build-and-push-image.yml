@@ -21,13 +21,13 @@ jobs:
       matrix:
         install_latest: [ true, false ]
 
-    steps:
+    steps:      
+      - name: Checkout Push to Registry action
+        uses: actions/checkout@v2
+        
       - name: Generate tag
         run: |
           echo "IMAGE_TAGS=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-      
-      - name: Checkout Push to Registry action
-        uses: actions/checkout@v2
 
       - name: Build Image
         id: build_image
