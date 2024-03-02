@@ -22,8 +22,8 @@ podman run -ditq --rm \
 	--group-add render \
 	--device /dev/kfd:/dev/kfd \
 	--device /dev/dri:/dev/dri \
-	-p 8080:80 \
 	-e PORT=80 \
+	-p 8080:80 \
 	-v "$VOLUME":/root/volume:U,z \
 	-w "/root/volume" \
 	\
