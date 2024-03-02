@@ -35,7 +35,7 @@ jobs:
         id: build
         run: |
           podman --version
-          podman build --tag $IMAGE_NAME:$IMAGE_TAG ---tag $IMAGE_NAME:latest .
+          podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
         
       - name: Push To Registry
         uses: redhat-actions/push-to-registry@v2
