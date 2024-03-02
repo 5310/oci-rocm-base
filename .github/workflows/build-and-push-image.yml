@@ -8,7 +8,6 @@ on:
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_TAGS: $(git rev-parse --short "$GITHUB_SHA")
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
     REGISTRY_USER: ${{ github.actor }}
     REGISTRY_PASSWORD: ${{ github.token }}
@@ -23,11 +22,13 @@ jobs:
         install_latest: [ true, false ]
 
     steps:
-      # Checkout push-to-registry action github repository
+      - name: Generate tag
+        run: |
+          echo "IMAGE_TAGS=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      
       - name: Checkout Push to Registry action
         uses: actions/checkout@v2
 
-      # Build image using Buildah action
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@v2
@@ -37,7 +38,6 @@ jobs:
           containerfiles: Confainerfile
           oci: true
 
-      # Push the image to GHCR (Image Registry)
       - name: Push To GHCR
         uses: ./
         id: push
