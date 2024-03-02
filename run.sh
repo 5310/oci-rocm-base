@@ -8,9 +8,9 @@ APP=${2:-'sdwebui'}
 [ -z "$1" ] && read -er -p "Mount volume: " -i "$VOLUME" VOLUME || echo "Mounting $VOLUME..."
 [ -z "$2" ] && read -er -p "Launch app: " -i "$APP" APP || echo "Launching $APP..."
 
-# Re/build image
+# Pull or re/build image
 
-podman build --no-cache --tag $CONTAINER - < Containerfile
+podman pull https://ghcr.io/5310/rocm-base || podman build --no-cache --tag $CONTAINER - < Containerfile
 
 # Run container
 
@@ -32,7 +32,7 @@ podman run -ditq --rm \
 	-e PYTORCH_HIP_ALLOC_CONF='garbage_collection_threshold:0.9,max_split_size_mb:256' \
 	-e HSA_OVERRIDE_GFX_VERSION='10.3.0' \
 	\
-	$CONTAINER \
+	$CONTAINER
 
 podman exec -i $CONTAINER bash -c '
 	mkdir -p /root/volume/app
@@ -72,7 +72,7 @@ case $APP in
 			cd "$COMFYUI_NAME"
 			<<-EOF > extra_model_paths.yaml
 				a111:
-					base_path: root/volume/
+					base_path: /root/volume/image
 					checkpoints: models/Stable-diffusion
 					configs: models/Stable-diffusion
 					vae: models/VAE
@@ -83,7 +83,7 @@ case $APP in
 						models/ESRGAN
 						models/RealESRGAN
 						models/SwinIR
-					embeddings: embeddings
+					embeddings: models/embeddings
 					hypernetworks: models/hypernetworks
 					controlnet: models/ControlNet
 			EOF
