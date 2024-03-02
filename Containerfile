@@ -57,7 +57,7 @@ RUN <<-EOR
 		mouse_mode true
 		layout {
 			new_tab_template split_direction="horizontal" {
-				pane focus=true stacked=true {
+				pane focus=true {
 					children
 				}
 				pane size=1 borderless=true {
@@ -65,10 +65,10 @@ RUN <<-EOR
 				}
 			}
 			tab split_direction="horizontal" {
-				pane focus=true stacked=true {
+				pane focus=true {
 					children
 				}
-				pane size=10 borderless=true command="/opt/rocm/bin/rocm-smi"
+				pane size=10 borderless=true name="rocm-smi" command="/opt/rocm/bin/rocm-smi"
 				pane size=1 borderless=true {
 					plugin location="zellij:compact-bar"
 				}
