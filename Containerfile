@@ -7,8 +7,10 @@ RUN <<-EOR
 	rm -rf /var/lib/apt/lists/*
 EOR
 
-ENV LD_PRELOAD=libtcmalloc.so
-ENV PIP_NO_CACHE_DIR=true
+ENV LD_PRELOAD="libtcmalloc.so"
+ENV PIP_NO_CACHE_DIR="true"
+ENV VENV_DIR=${VENV_DIR:-"/root/volume/environment/venv"}
+ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/nightly/rocm6.0"}
 
 # ARG CADDY_REPO="https://caddyserver.com/api/download?os=linux&arch=amd64"
 

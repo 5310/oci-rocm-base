@@ -10,7 +10,7 @@ APP=${2:-'sdwebui'}
 
 # Pull or re/build image
 
-podman pull https://ghcr.io/5310/rocm-base || podman build --no-cache --tag $CONTAINER - < Containerfile
+podman pull ghcr.io/5310/rocm-base && podman tag ghcr.io/5310/rocm-base:latest $CONTAINER:latest || podman build --no-cache --tag $CONTAINER - < Containerfile
 
 # Run container
 
@@ -18,10 +18,12 @@ mkdir -p "$VOLUME"
 podman run -ditq --rm \
 	--name $CONTAINER \
 	--hostname $CONTAINER \
+	\
 	--group-add video \
 	--group-add render \
 	--device /dev/kfd:/dev/kfd \
 	--device /dev/dri:/dev/dri \
+	\
 	-e PORT=80 \
 	-p 8080:80 \
 	-v "$VOLUME":/root/volume:U,z \
@@ -32,12 +34,13 @@ podman run -ditq --rm \
 	-e PYTORCH_HIP_ALLOC_CONF='garbage_collection_threshold:0.9,max_split_size_mb:256' \
 	-e HSA_OVERRIDE_GFX_VERSION='10.3.0' \
 	\
-	$CONTAINER
-
-podman exec -i $CONTAINER bash -c '
-	mkdir -p /root/volume/app
-	mkdir -p /root/volume/environment
-'
+	$CONTAINER \
+	bash -c '
+		echo test
+		mkdir -p /root/volume/app
+		mkdir -p /root/volume/environment
+		bash
+	'
 
 # Launch app
 
@@ -49,7 +52,7 @@ case $APP in
 			echo "Starting $APP..."
 			SDWEBUI_NAME="sdwebui"
 			SDWEBUI_REPO="https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh"
-			SDWEBUI_ARGS="-f --listen --port $PORT --enable-insecure-extension-access --data-dir /root/volume/library --no-download-sd-model  --precision full --no-half --opt-sub-quad-attention"
+			SDWEBUI_ARGS="-f --listen --port $PORT --enable-insecure-extension-access --data-dir /root/volume/library --no-download-sd-model"
 			curl -sSL -f "$SDWEBUI_REPO" | \
 				clone_dir="$SDWEBUI_NAME" \
 				venv_dir="$VENV_DIR" \
@@ -60,12 +63,13 @@ case $APP in
 
 	# ComfyUI
 	'comfyui')
+	echo test
 		podman exec -i $CONTAINER zellij run -n "$APP" --cwd '/root/volume/app' -- bash -c '
 			echo "Starting $APP..."
 			COMFYUI_NAME="comfyui"
 			COMFYUI_REPO="https://github.com/comfyanonymous/ComfyUI"
 			COMFYUI_MANAGER_REPO="https://github.com/ltdrdata/ComfyUI-Manager"
-			COMFYUI_ARGS="--listen 0.0.0.0 --port $PORT --disable-auto-launch --dont-upcast-attention"
+			COMFYUI_ARGS="--listen 0.0.0.0 --port $PORT --disable-auto-launch"
 			if [ ! -e "$COMFYUI_NAME" ]; then
 				git clone --depth 1 "$COMFYUI_REPO" "$COMFYUI_NAME"
 			fi
