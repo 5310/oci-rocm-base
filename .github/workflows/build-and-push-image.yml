@@ -3,6 +3,10 @@ name: Build and Push Image
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron:  '0 0 * * 5'
     
 env:
     IMAGE_NAME: rocm-base
