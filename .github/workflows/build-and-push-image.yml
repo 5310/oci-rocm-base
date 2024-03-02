@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate Tag
         run: |
-          IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)
+          echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
           
       - name: Install fresh Podman
         uses: gacts/install-podman@v1
