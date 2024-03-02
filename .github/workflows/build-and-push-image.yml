@@ -28,8 +28,8 @@ jobs:
       - name: Build Image
         id: build
         run: |
-          apt-get update
-          apt-get upgrade podman
+          sudo apt-get update
+          sudo apt-get upgrade podman
           podman --version
           podman build --tag $IMAGE_NAME:$(git rev-parse --short $GITHUB_SHA) .
         
