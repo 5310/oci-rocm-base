@@ -6,11 +6,12 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron:  '0 0 * * 5'
+    - cron:  '0 0 * * 5' # every Friday
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+    IMAGE_TAG:
+    IMAGE_REGISTRY: ghcr.io
     REGISTRY_USER: ${{ github.actor }}
     REGISTRY_PASSWORD: ${{ github.token }}
 
@@ -38,8 +39,18 @@ jobs:
       - name: Build Image
         id: build
         run: |
-          podman --version
-          podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
+          git fetch --depth=1 origin +refs/pull/${{ github.event.number }}/merge
+          file="Containerfile"
+          git diff --name-only HEAD FETCH_HEAD
+          echo curl -sI H "Authorization: Bearer ${REGISTRY_PASSWORD}" https://${IMAGE_REGISTRY}/v2/${github.repository_owner}/${IMAGE_NAME}/manifests/latest
+          exit
+          if [ $(git diff --name-only HEAD FETCH_HEAD | grep "$file") ]; then
+            podman --version
+            HASH=$(podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest . | tail -n 1)
+          else
+            echo "Not rebuilding because $file has not changed"
+            exit 0
+          fi
         
       - name: Push To Registry
         uses: redhat-actions/push-to-registry@v2
@@ -47,7 +58,7 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.IMAGE_TAG }} latest
-          registry: ${{ env.IMAGE_REGISTRY }}
+          registry: ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           extra-args: |
