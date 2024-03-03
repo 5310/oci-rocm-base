@@ -42,7 +42,7 @@ jobs:
           DIGEST_OLD=$(docker manifest inspect $IMAGE_REGISTRY/$REGISTRY_USER/$IMAGE_NAME:latest -v | grep "digest" | head -n 1 | cut -d '"' -f 4 | cut -d ':' -f 2)
           if [ $DIGEST_NEW = $DIGEST_OLD ]; then 
             echo "The image has not changed"
-            exit 1
+            exit 0
           fi
         
       - name: Push To Registry
