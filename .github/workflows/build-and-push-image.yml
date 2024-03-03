@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    permissions: read-all
+    permissions: write-all
 
     steps:      
       - name: Checkout Push to Registry action
@@ -37,7 +37,7 @@ jobs:
       - name: Build Image
         id: build
         run: |
-          curl -sI H "Authorization: Bearer ${REGISTRY_PASSWORD}" https://${IMAGE_REGISTRY}/v2/${REGISTRY_USER}/${IMAGE_NAME}/manifests/latest
+          curl -sI H "Authorization: Bearer ${GITHUB_TOKEN}" https://${IMAGE_REGISTRY}/v2/${REGISTRY_USER}/${IMAGE_NAME}/manifests/latest
           exit
           if [ $(git diff --name-only HEAD FETCH_HEAD | grep "$file") ]; then
             podman --version
