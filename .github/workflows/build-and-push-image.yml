@@ -37,7 +37,7 @@ jobs:
       - name: Build Image
         id: build
         run: |
-          echo curl -sI H "Authorization: Bearer ${{ github.token }}" https://${IMAGE_REGISTRY}/v2/${{github.repository_owner}}/${IMAGE_NAME}/manifests/latest
+          curl -sI H "Authorization: Bearer ${REGISTRY_PASSWORD}" https://${IMAGE_REGISTRY}/v2/${REGISTRY_USER}/${IMAGE_NAME}/manifests/latest
           exit
           if [ $(git diff --name-only HEAD FETCH_HEAD | grep "$file") ]; then
             podman --version
@@ -53,7 +53,7 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ env.IMAGE_TAG }} latest
-          registry: ${{ env.IMAGE_REGISTRY }}/${{ github.repository_owner }}
+          registry: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           extra-args: |
