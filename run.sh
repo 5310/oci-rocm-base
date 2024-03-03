@@ -10,10 +10,11 @@ APP=${2:-'sdwebui'}
 
 # Pull or re/build image
 
-podman pull ghcr.io/5310/rocm-base && podman tag ghcr.io/5310/rocm-base:latest $CONTAINER:latest || podman build --no-cache --tag $CONTAINER - < Containerfile
+podman pull ghcr.io/5310/rocm-base && podman tag ghcr.io/5310/rocm-base:latest $CONTAINER:latest || podman build --no-cache --tag $CONTAINER .
 
 # Run container
 
+echo Running the container...
 mkdir -p "$VOLUME"
 podman run -ditq --rm \
 	--name $CONTAINER \
@@ -41,9 +42,11 @@ podman run -ditq --rm \
 		mkdir -p /root/volume/environment
 		bash
 	'
+sleep 3;
 
 # Launch app
 
+echo Launching app...
 case $APP in
 
 	# Automatic1111's Stable Diffusion WebUI
@@ -74,7 +77,7 @@ case $APP in
 				git clone --depth 1 "$COMFYUI_REPO" "$COMFYUI_NAME"
 			fi
 			cd "$COMFYUI_NAME"
-			<<-EOF > extra_model_paths.yaml
+			cat <<-EOF > extra_model_paths.yaml
 				a111:
 					base_path: /root/volume/library
 					checkpoints: models/Stable-diffusion
@@ -112,4 +115,6 @@ esac
 
 # Attach terminal
 
+echo Attaching to the container
 podman attach $CONTAINER
+clear
