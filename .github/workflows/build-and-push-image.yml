@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
           
-      - name: Install fresh Podman
+      - name: Install Fresh Podman
         uses: gacts/install-podman@v1
 
       - name: Build Image
