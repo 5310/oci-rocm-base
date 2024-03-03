@@ -37,14 +37,12 @@ jobs:
       - name: Build Image
         id: build
         run: |
-          curl -sI H "Authorization: Bearer ${GITHUB_TOKEN}" https://${IMAGE_REGISTRY}/v2/${REGISTRY_USER}/${IMAGE_NAME}/manifests/latest
-          exit
-          if [ $(git diff --name-only HEAD FETCH_HEAD | grep "$file") ]; then
-            podman --version
-            HASH=$(podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest . | tail -n 1)
-          else
-            echo "Not rebuilding because $file has not changed"
-            exit 0
+          podman --version
+          DIGEST_NEW=$(podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest . | tail -n 1)
+          DIGEST_OLD=$(docker manifest inspect $IMAGE_REGISTRY/$REGISTRY_USER/$IMAGE_NAME:latest -v | grep "digest" | head -n 1 | cut -d '"' -f 4 | cut -d ':' -f 2)
+          if [ $DIGEST_NEW = $DIGEST_OLD ]; then 
+            echo "The image has not changed"
+            exit 1
           fi
         
       - name: Push To Registry
