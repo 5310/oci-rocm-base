@@ -39,7 +39,9 @@ jobs:
         run: |
           podman --version
           DIGEST_NEW=$(podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest . | tail -n 1)
+          echo DIGEST_NEW $DIGEST_NEW
           DIGEST_OLD=$(docker manifest inspect $IMAGE_REGISTRY/$REGISTRY_USER/$IMAGE_NAME:latest -v | grep "digest" | head -n 1 | cut -d '"' -f 4 | cut -d ':' -f 2)
+          echo DIGEST_OLD $DIGEST_OLD
           if [ $DIGEST_NEW = $DIGEST_OLD ]; then 
             echo "The image has not changed"
             exit 0
