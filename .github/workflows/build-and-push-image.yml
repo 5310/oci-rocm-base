@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    permissions: write-all
+    permissions: read-all
 
     steps:      
       - name: Checkout Push to Registry action
