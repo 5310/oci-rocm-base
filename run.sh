@@ -79,20 +79,20 @@ case $APP in
 			cd "$COMFYUI_NAME"
 			cat <<-EOF > extra_model_paths.yaml
 				a111:
-					base_path: /root/volume/library
-					checkpoints: models/Stable-diffusion
-					configs: models/Stable-diffusion
-					vae: models/VAE
-					loras: |
-					    models/Lora
-					    models/LyCORIS
-					upscale_models: |
-					    models/ESRGAN
-					    models/RealESRGAN
-					    models/SwinIR
-					embeddings: embeddings
-					hypernetworks: models/hypernetworks
-					controlnet: models/ControlNet
+				    base_path: /root/volume/library
+				    checkpoints: models/Stable-diffusion
+				    configs: models/Stable-diffusion
+				    vae: models/VAE
+				    loras: |
+				        models/Lora
+				        models/LyCORIS
+				    upscale_models: |
+				        models/ESRGAN
+				        models/RealESRGAN
+				        models/SwinIR
+				    embeddings: embeddings
+				    hypernetworks: models/hypernetworks
+				    controlnet: models/ControlNet
 			EOF
 			if [ ! -e "custom_nodes/ComfyUI-Manager" ]; then
 				git clone --depth 1 "$COMFYUI_MANAGER_REPO" "custom_nodes/ComfyUI-Manager"
