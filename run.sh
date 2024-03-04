@@ -84,12 +84,12 @@ case $APP in
 					configs: models/Stable-diffusion
 					vae: models/VAE
 					loras: |
-						models/Lora
-						models/LyCORIS
+					    models/Lora
+					    models/LyCORIS
 					upscale_models: |
-						models/ESRGAN
-						models/RealESRGAN
-						models/SwinIR
+					    models/ESRGAN
+					    models/RealESRGAN
+					    models/SwinIR
 					embeddings: embeddings
 					hypernetworks: models/hypernetworks
 					controlnet: models/ControlNet
