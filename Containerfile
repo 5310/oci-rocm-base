@@ -85,37 +85,37 @@ RUN <<-EOR
 		mouse_mode true
 		auto_layout false
 		layout {
-			new_tab_template split_direction="horizontal" {
-				pane focus=true {
-					children
-				}
-				pane size=1 borderless=true {
-					plugin location="zellij:compact-bar"
-				}
-			}
-			tab split_direction="horizontal" {
-				pane focus=true {
-					children
-				}
-				pane size=10 borderless=true name="resource-monitor" {
-					command "btop"
-					args "--utf-force" "-p" "1"
-				}
-				pane size=1 borderless=true {
-					plugin location="zellij:compact-bar"
-				}
-			}
+		    new_tab_template split_direction="horizontal" {
+		        pane focus=true {
+		            children
+		        }
+		        pane size=1 borderless=true {
+		            plugin location="zellij:compact-bar"
+		        }
+		    }
+		    tab split_direction="horizontal" {
+		        pane focus=true {
+		            children
+		        }
+		        pane size=10 borderless=true name="resource-monitor" {
+		            command "btop"
+		            args "--utf-force" "-p" "1"
+		        }
+		        pane size=1 borderless=true {
+		            plugin location="zellij:compact-bar"
+		        }
+		    }
 		}
 	EOF
 	cat <<-EOF >> ~/.bashrc 
 		quit () {
-			if [[ "\$ZELLIJ" ]]; then
-				pkill zellij
-			fi
+		    if [[ "\$ZELLIJ" ]]; then
+		        pkill zellij
+		    fi
 		}
 		if [[ -z "\$ZELLIJ" ]]; then
-			zellij --layout ~/.zellijrc.kdl attach -c console
-			exit
+		    zellij --layout ~/.zellijrc.kdl attach -c console
+		    exit
 		fi
 	EOF
 EOR
