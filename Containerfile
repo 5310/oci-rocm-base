@@ -1,8 +1,9 @@
 FROM docker.io/rocm/dev-ubuntu-22.04:latest
 
-LABEL org.opencontainers.image.description "A relatively \"stock\" image with just enough dependencies to setup PyTorch-based \"AI\" apps for AMD ROCm compatible hosts, plus creature comforts."
+LABEL org.opencontainers.image.description "A relatively \"stock\" image with just enough dependencies to setup PyTorch-based \"AI\" apps on AMD ROCm compatible hosts in comfort."
+
 LABEL org.opencontainers.image.base.name "docker.io/rocm/dev-ubuntu-22.04:latest"
-LABEL org.opencontainers.image.authors "Scio, SS"
+LABEL org.opencontainers.image.authors "Scio (5310), SS"
 LABEL org.opencontainers.image.url "https://github.com/5310/oci-rocm-base"
 
 LABEL RUN="podman run -itq --rm --group-add video --group-add render --device /dev/kfd:/dev/kfd --device /dev/dri:/dev/dri -v .:/root/volume:U,z -e HSA_OVERRIDE_GFX_VERSION='10.3.0' \${IMAGE} bash"
