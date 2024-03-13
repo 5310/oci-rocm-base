@@ -20,6 +20,8 @@ podman container runlabel --display run ghcr.io/5310/rocm-base
 
 Yes, it just assumes the GPU is a 66XX series, or the Steam Deck. Those are the defaults we wanted, so you'd _have_ to write your own run command, perhaps put it in a script, if you don't want that.
 
+For a more elaborate example that can install and run Automatic1111's WebUI or ComfyUI from a persistent sibling directory, see [`run.sh`](run.sh)
+
 ---
 
-For a more elaborate example that can install and run Automatic1111's WebUI or ComfyUI from a persistent sibling directory, see [`run.sh`](run.sh)
+Quit the container with `ctrl+q` from an attached Zellij console. Or, you know, kill it, because instability is the name of the game.
