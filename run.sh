@@ -37,7 +37,6 @@ podman run -ditq --rm \
 	\
 	$CONTAINER \
 	bash -c '
-		echo test
 		mkdir -p /root/volume/app
 		mkdir -p /root/volume/environment
 		bash
