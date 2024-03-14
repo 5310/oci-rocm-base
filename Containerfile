@@ -1,6 +1,6 @@
 FROM docker.io/rocm/dev-ubuntu-22.04:latest
 
-LABEL org.opencontainers.image.description="A relatively \"stock\" image with just enough dependencies to setup PyTorch-based \"AI\" apps on AMD ROCm compatible hosts in comfort."
+LABEL org.opencontainers.image.description='A relatively stock image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort'
 LABEL org.opencontainers.image.base.name="docker.io/rocm/dev-ubuntu-22.04:latest"
 LABEL org.opencontainers.image.url="https://github.com/5310/oci-rocm-base"
 

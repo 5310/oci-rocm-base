@@ -1,6 +1,6 @@
 # rocm-base
 
-A relatively \"stock\" image with just enough dependencies to setup PyTorch-based \"AI\" apps on AMD ROCm compatible hosts in comfort.
+> A relatively stock image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort
 
 Built for and tested with rootless [Podman](https://podman.io/); version 4.5.1 (pre-installed on the Steam Deck from SteamOS 3.5) and 4.9.2
 
