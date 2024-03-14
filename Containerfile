@@ -4,7 +4,33 @@ LABEL org.opencontainers.image.description='A relatively stock image with just e
 LABEL org.opencontainers.image.base.name="docker.io/rocm/dev-ubuntu-22.04:latest"
 LABEL org.opencontainers.image.url="https://github.com/5310/oci-rocm-base"
 
-LABEL RUN="podman run -itq --rm --group-add video --group-add render --device /dev/kfd:/dev/kfd --device /dev/dri:/dev/dri -v .:/root/volume:U,z -e HSA_OVERRIDE_GFX_VERSION='10.3.0' \${IMAGE} bash"
+# Runlabels
+
+LABEL TEST='\
+	podman run -itq --replace --rm \
+		--group-add video \
+		--group-add render \
+		--device /dev/kfd:/dev/kfd \
+		--device /dev/dri:/dev/dri \
+		${IMAGE} \
+		bash -c "rocminfo"\
+'
+LABEL RUN='\
+	podman run -itq --replace --rm \
+		--group-add video \
+		--group-add render \
+		--device /dev/kfd:/dev/kfd \
+		--device /dev/dri:/dev/dri \
+		\
+		-e PORT=80 \
+		-p 8888:80 \
+		\
+		-v .:/root/volume:U,z \
+		-w /root/volume \
+		\
+		\${IMAGE} \
+		bash \
+'
 
 # Install the essential dependencies
 
