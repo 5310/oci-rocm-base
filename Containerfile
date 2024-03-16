@@ -116,28 +116,31 @@ RUN <<-EOR
 		default_shell "bash"
 		mirror_session true
 		mouse_mode true
-		auto_layout false
 		layout {
-		    new_tab_template split_direction="horizontal" {
-		        pane focus=true {
-		            children
-		        }
-		        pane size=1 borderless=true {
-		            plugin location="zellij:compact-bar"
-		        }
-		    }
-		    tab split_direction="horizontal" {
-		        pane focus=true {
-		            children
-		        }
+		    default_tab_template {
+		        children;
 		        pane size=10 borderless=true name="resource-monitor" {
 		            command "btop"
 		            args "--utf-force" "-p" "1"
 		        }
-		        pane size=1 borderless=true {
-		            plugin location="zellij:compact-bar"
+		        pane size=2 borderless=true {
+		            plugin location="zellij:status-bar"
 		        }
 		    }
+		    swap_tiled_layout name="base" {
+		        tab max_panes=5 {
+		            pane {
+		            	children;
+		            }
+		        }
+		    }
+		    swap_tiled_layout name="stacked" {
+			    tab {
+			        pane split_direction="horizontal" stacked=true {
+			            children;
+			        }
+			    }
+			}
 		}
 	EOF
 	cat <<-EOF >> ~/.bashrc 
