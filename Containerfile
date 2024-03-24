@@ -33,8 +33,7 @@ LABEL RUN='\
 '
 
 RUN pacman -Syu --noconfirm bash curl tar nano git gperftools &&\
-	pacman -Scc --noconfirm &&\
-	;
+	pacman -Scc --noconfirm
 
 ENV LD_PRELOAD="libtcmalloc.so"
 ENV PIP_NO_CACHE_DIR="true"
