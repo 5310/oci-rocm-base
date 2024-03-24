@@ -102,7 +102,7 @@ jobs:
           tags: |
             ${{ steps.generate-tags.outputs.alias_tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          oci: false
+          oci: true
           extra-args: |
             --target=${{ matrix.base_name }} --security-opt=seccomp=unconfined
 
@@ -123,7 +123,6 @@ jobs:
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ github.token }}
         with:
-          oci:
           image: ${{ steps.build_image.outputs.image }}
           tags: ${{ steps.build_image.outputs.tags }}
           registry: ${{ steps.registry_case.outputs.lowercase }}
