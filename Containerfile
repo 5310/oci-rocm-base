@@ -32,9 +32,9 @@ LABEL RUN='\
 		bash \
 '
 
-RUN '
-	pacman -Syu --noconfirm bash curl tar nano git gperftools
-	pacman -Sc --noconfirm
+RUN '\
+	pacman -Syu --noconfirm bash curl tar nano git gperftools;\
+	pacman -Sc --noconfirm;\
 '
 
 ENV LD_PRELOAD="libtcmalloc.so"
