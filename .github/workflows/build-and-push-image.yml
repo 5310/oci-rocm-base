@@ -89,7 +89,7 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.version=${{ steps.labels.outputs.VERSION }}
             org.opencontainers.image.description="A relatively stock Arch image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort"
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/5310/rocm-base/arch/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/5310/oci-rocm-base/arch/README.md
 
       # Build image using Buildah action
       - name: Build Image
@@ -123,6 +123,7 @@ jobs:
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ github.token }}
         with:
+          oci:
           image: ${{ steps.build_image.outputs.image }}
           tags: ${{ steps.build_image.outputs.tags }}
           registry: ${{ steps.registry_case.outputs.lowercase }}
