@@ -1,4 +1,4 @@
-FROM docker.io/greyltc/archlinux-aur:latest
+FROM docker.io/greyltc/archlinux-aur:latest AS rocm-base-arch
 
 LABEL org.opencontainers.image.title=rocm-base-arch
 LABEL org.opencontainers.image.description='A relatively stock Arch image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort'
