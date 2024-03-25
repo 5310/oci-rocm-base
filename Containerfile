@@ -16,7 +16,7 @@ LABEL TEST='\
 		bash -c "rocminfo"\
 '
 LABEL RUN='\
-	podman run -itq --replace --rm \
+	podman run -itq --rm \
 		--group-add video \
 		--group-add render \
 		--device /dev/kfd:/dev/kfd \
@@ -28,7 +28,6 @@ LABEL RUN='\
 		-v .:/root/volume:U,z \
 		-w /root/volume \
 		\
-		-n \${IMAGE} \
 		\${IMAGE} \
 		bash \
 '
