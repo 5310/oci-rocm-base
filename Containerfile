@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.url="https://github.com/5310/oci-rocm-base-arch"
 LABEL io.artifacthub.package.readme-url=https://raw.githubusercontent.com/5310/rocm-base/arch/README.md
 
 LABEL TEST='\
-	podman run -itq --replace --rm \
+	podman run -itq --rm \
 		--group-add video \
 		--group-add render \
 		--device /dev/kfd:/dev/kfd \
@@ -28,6 +28,7 @@ LABEL RUN='\
 		-v .:/root/volume:U,z \
 		-w /root/volume \
 		\
+		-n \${IMAGE} \
 		\${IMAGE} \
 		bash \
 '
@@ -35,11 +36,10 @@ LABEL RUN='\
 RUN pacman -Syu --noconfirm &&\
 	pacman -Sc --noconfirm &&\
 	pacman -Sc --noconfirm bash curl tar nano git gperftools &&\
-	pacman -Sc --noconfirm rocm-core rocminfo &&\
+	pacman -Sc --noconfirm rocm-core rocminfo rocm-smi-lib &&\
 	#pacman -Sc --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\ 
 	pacman -Scc --noconfirm
 
-ENV LD_PRELOAD="libtcmalloc.so"
 ENV PIP_NO_CACHE_DIR="true"
 ENV VENV_DIR=${VENV_DIR:-"/root/volume/environment/venv"}
 ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/nightly/rocm6.0"}
