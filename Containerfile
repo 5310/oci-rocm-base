@@ -38,6 +38,7 @@ RUN pacman -Syu --noconfirm &&\
 	pacman -S --noconfirm rocm-core rocminfo rocm-smi-lib &&\
 	#pacman -S --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\
 	pacman -Sc --noconfirm &&\
+	ln -s /opt/rocm/bin/* /usr/local/bin &&\
 	echo Done
 
 ENV PIP_NO_CACHE_DIR="true"
