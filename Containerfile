@@ -32,7 +32,10 @@ LABEL RUN='\
 		bash \
 '
 
-RUN pacman -Syu --noconfirm bash curl tar nano git gperftools rocm-core rocminfo rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\ 
+RUN pacman -Syuc --noconfirm &&\
+	pacman -Sc --noconfirm bash curl tar nano git gperftools &&\
+	pacman -Sc --noconfirm rocm-core rocminfo &&\
+	#pacman -Sc --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\ 
 	pacman -Scc --noconfirm
 
 ENV LD_PRELOAD="libtcmalloc.so"
