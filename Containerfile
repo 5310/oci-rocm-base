@@ -32,7 +32,8 @@ LABEL RUN='\
 		bash \
 '
 
-RUN pacman -Syuc --noconfirm &&\
+RUN pacman -Syu --noconfirm &&\
+	pacman -Sc --noconfirm &&\
 	pacman -Sc --noconfirm bash curl tar nano git gperftools &&\
 	pacman -Sc --noconfirm rocm-core rocminfo &&\
 	#pacman -Sc --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\ 
