@@ -35,7 +35,7 @@ LABEL RUN='\
 RUN pacman -Syu --noconfirm &&\
 	pacman -S --noconfirm bash curl tar nano git gperftools &&\
 	pacman -S --noconfirm rocm-core rocminfo rocm-smi-lib &&\
-	#pacman -S --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\
+	#aur-install ollama-rocm-git &&\
 	pacman -Sc --noconfirm &&\
 	ln -s /opt/rocm/bin/* /usr/local/bin &&\
 	echo Done
