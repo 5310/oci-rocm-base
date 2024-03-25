@@ -1,7 +1,7 @@
 FROM docker.io/greyltc/archlinux-aur:latest AS rocm-base-arch
 
 LABEL org.opencontainers.image.title=rocm-base-arch
-LABEL org.opencontainers.image.description='A relatively stock Arch image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort'
+LABEL org.opencontainers.image.description='A relatively stock Arch image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort. (See the runlabels for required permissions.)'
 LABEL org.opencontainers.image.base.name="docker.io/greyltc/archlinux-aur"
 LABEL org.opencontainers.image.url="https://github.com/5310/oci-rocm-base-arch"
 LABEL io.artifacthub.package.readme-url=https://raw.githubusercontent.com/5310/rocm-base/arch/README.md
