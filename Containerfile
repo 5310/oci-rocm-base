@@ -38,7 +38,7 @@ RUN pacman -Syu --noconfirm &&\
 	pacman -Sc --noconfirm bash curl tar nano git gperftools &&\
 	pacman -Sc --noconfirm rocm-core rocminfo rocm-smi-lib &&\
 	#pacman -Sc --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\ 
-	pacman -Scc --noconfirm
+	echo Done
 
 ENV PIP_NO_CACHE_DIR="true"
 ENV VENV_DIR=${VENV_DIR:-"/root/volume/environment/venv"}
