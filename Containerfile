@@ -34,7 +34,6 @@ LABEL RUN='\
 '
 
 RUN pacman -Syu --noconfirm &&\
-	pacman -S --noconfirm &&\
 	pacman -S --noconfirm bash curl tar nano git gperftools &&\
 	pacman -S --noconfirm rocm-core rocminfo rocm-smi-lib &&\
 	#pacman -S --noconfirm rocm-language-runtime rocblas hipblas rocsolver rocsparse rocm-device-libs rocm-clang-ocl &&\
