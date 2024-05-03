@@ -34,13 +34,13 @@ jobs:
       - name: Install Fresh Podman
         run: |
           /home/linuxbrew/.linuxbrew/bin/brew install podman
-          podman -v
+          /home/linuxbrew/.linuxbrew/opt/podman/bin/podman -v
 
       - name: Build Image
         id: build
         run: |
-          podman --version
-          podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
+          /home/linuxbrew/.linuxbrew/opt/podman/bin/podman --version
+          /home/linuxbrew/.linuxbrew/opt/podman/bin/podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
         
       - name: Push To Registry
         uses: redhat-actions/push-to-registry@main
