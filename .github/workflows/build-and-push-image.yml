@@ -33,8 +33,8 @@ jobs:
           
       - name: Install Fresh Podman
         run: |
-          $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-          brew install podman
+          /home/linuxbrew/.linuxbrew/bin/brew install podman
+          podman -v
 
       - name: Build Image
         id: build
