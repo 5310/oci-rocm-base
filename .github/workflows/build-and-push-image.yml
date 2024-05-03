@@ -32,7 +32,9 @@ jobs:
           echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
           
       - name: Install Fresh Podman
-        uses: gacts/install-podman@v1.0.0
+        run: |
+          $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+          brew install podman
 
       - name: Build Image
         id: build
