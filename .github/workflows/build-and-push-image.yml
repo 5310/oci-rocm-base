@@ -32,7 +32,7 @@ jobs:
           echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
           
       - name: Install Fresh Podman
-        uses: gacts/install-podman@1
+        uses: gacts/install-podman@1.1.0
 
       - name: Build Image
         id: build
