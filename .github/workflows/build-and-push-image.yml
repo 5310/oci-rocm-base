@@ -10,8 +10,9 @@ on:
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_TAG:
+    IMAGE_TAG: latest
     IMAGE_REGISTRY: ghcr.io
+    REGISTRY_REPO: ${{ github.repository }}
     REGISTRY_USER: ${{ github.actor }}
     REGISTRY_PASSWORD: ${{ github.token }}
 
@@ -38,7 +39,7 @@ jobs:
         #   podman --version
         #   podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
         run: |
-          podman run --rm -it --privileged -v.:/root:rw quay.io/podman/stable:latest podman build /root/
+          podman run --rm -it --privileged -v.:/root:rw quay.io/podman/stable:latest 'podman build --tag=$IMAGE_NAME:$IMAGE_TAG /root/ && podman push --creds=$REGISTRY_USER:$REGISTRY_PASSWORD localhost/$IMAGE_NAME:$IMAGE_TAG ghcr.io/$REGISTRY_REPO:latest
         
       # - name: Push To Registry
       #   uses: redhat-actions/push-to-registry@main
