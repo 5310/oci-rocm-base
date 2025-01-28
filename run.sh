@@ -3,7 +3,7 @@
 CONTAINER='rocm-base'
 
 VOLUME=${1:-'./volume'}
-APP=${2:-'sdwebui'}
+APP=${2:-'comfyui'}
 
 [ -z "$1" ] && read -er -p "Mount volume: " -i "$VOLUME" VOLUME || echo "Mounting $VOLUME..."
 [ -z "$2" ] && read -er -p "Launch app: " -i "$APP" APP || echo "Launching $APP..."
@@ -47,21 +47,6 @@ sleep 3;
 
 echo Launching app...
 case $APP in
-
-	# Automatic1111's Stable Diffusion WebUI
- 	'sdwebui') 
-		podman exec -i $CONTAINER zellij run -n "$APP" --cwd '/root/volume/app' -- bash -c '
-			echo "Starting $APP..."
-			SDWEBUI_NAME="sdwebui"
-			SDWEBUI_REPO="https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh"
-			SDWEBUI_ARGS="-f --listen --port $PORT --enable-insecure-extension-access --data-dir /root/volume/library --no-download-sd-model"
-			curl -sSL -f "$SDWEBUI_REPO" | \
-				clone_dir="$SDWEBUI_NAME" \
-				venv_dir="$VENV_DIR" \
-				TORCH_COMMAND="pip install --pre torch torchvision torchaudio --index-url \"$PYTORCH_REPO\"" \
-				bash -s - $SDWEBUI_ARGS;
-		'
-		;;
 
 	# ComfyUI
 	'comfyui')
