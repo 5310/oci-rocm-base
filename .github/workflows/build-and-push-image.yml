@@ -10,19 +10,49 @@ on:
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_TAG: latest
+    IMAGE_TAG:
     IMAGE_REGISTRY: ghcr.io
     REGISTRY_USER: ${{ github.actor }}
     REGISTRY_PASSWORD: ${{ github.token }}
 
 jobs:
-  build-push:
+
+  push-ghcr:
+    name: Build and push image
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    permissions: write-all
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    steps:      
+      - name: Checkout Push to Registry action
+        uses: actions/checkout@main
 
-      - name: Run command in container
+      - name: Generate Tag
         run: |
-          echo "Running command within the container"
+          echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
+
+      - name: Build Image
+        id: build
+        # run: |
+        #   podman --version
+        #   podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
+        run: |
+          podman run -it --privileged --rm quay.io/podman/stable:latest
+          podman --version
+        
+      # - name: Push To Registry
+      #   uses: redhat-actions/push-to-registry@main
+      #   id: push
+      #   with:
+      #     image: ${{ env.IMAGE_NAME }}
+      #     tags: ${{ env.IMAGE_TAG }} latest
+      #     registry: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}
+      #     username: ${{ env.REGISTRY_USER }}
+      #     password: ${{ env.REGISTRY_PASSWORD }}
+      #     extra-args: |
+      #       --disable-content-trust
+
+      # - name: Echo outputs
+      #   run: |
+      #     echo "${{ toJSON(steps.push.outputs) }}"
