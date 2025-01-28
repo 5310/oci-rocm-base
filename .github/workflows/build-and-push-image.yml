@@ -38,8 +38,7 @@ jobs:
         #   podman --version
         #   podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
         run: |
-          podman run -it --privileged --rm quay.io/podman/stable:latest
-          podman --version
+          podman run --rm -it --privileged quay.io/podman/stable:latest podman version
         
       # - name: Push To Registry
       #   uses: redhat-actions/push-to-registry@main
