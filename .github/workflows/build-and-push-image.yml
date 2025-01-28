@@ -10,7 +10,7 @@ on:
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_TAG: latest
+    IMAGE_TAG: # generated from commit later
     IMAGE_REGISTRY: ghcr.io
     REGISTRY_REPO: ${{ github.repository }}
     REGISTRY_USER: ${{ github.actor }}
@@ -33,26 +33,8 @@ jobs:
         run: |
           echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
 
-      - name: Build Image
+      - name: Build and Push Image
         id: build
-        # run: |
-        #   podman --version
-        #   podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
         run: |
-          podman run --rm -it --privileged -v.:/root:rw quay.io/podman/stable:latest sh -c "podman build --tag=$IMAGE_NAME:$IMAGE_TAG /root/ && podman push --creds=$REGISTRY_USER:$REGISTRY_PASSWORD localhost/$IMAGE_NAME:$IMAGE_TAG ghcr.io/$REGISTRY_REPO:latest"
-        
-      # - name: Push To Registry
-      #   uses: redhat-actions/push-to-registry@main
-      #   id: push
-      #   with:
-      #     image: ${{ env.IMAGE_NAME }}
-      #     tags: ${{ env.IMAGE_TAG }} latest
-      #     registry: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}
-      #     username: ${{ env.REGISTRY_USER }}
-      #     password: ${{ env.REGISTRY_PASSWORD }}
-      #     extra-args: |
-      #       --disable-content-trust
-
-      # - name: Echo outputs
-      #   run: |
-      #     echo "${{ toJSON(steps.push.outputs) }}"
+          podman --version
+          podman run --rm -it --privileged -v.:/root:rw quay.io/podman/stable:latest sh -c "podman build --tag=$IMAGE_NAME:$IMAGE_TAG /root/ && podman push --creds=$REGISTRY_USER:$REGISTRY_PASSWORD localhost/$IMAGE_NAME:$IMAGE_TAG ghcr.io/$REGISTRY_USER/$IMAGE_NAME:latest"
