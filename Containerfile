@@ -1,7 +1,7 @@
-FROM docker.io/rocm/dev-ubuntu-22.04:latest
+FROM docker.io/rocm/dev-ubuntu-24.04:latest
 
 LABEL org.opencontainers.image.description='A relatively stock image with just enough dependencies to setup PyTorch-based apps on AMD ROCm compatible hosts in comfort'
-LABEL org.opencontainers.image.base.name="docker.io/rocm/dev-ubuntu-22.04:latest"
+LABEL org.opencontainers.image.base.name="docker.io/rocm/dev-ubuntu-24.04:latest"
 LABEL org.opencontainers.image.url="https://github.com/5310/oci-rocm-base"
 
 # Runlabels
@@ -44,7 +44,7 @@ EOR
 ENV LD_PRELOAD="libtcmalloc.so"
 ENV PIP_NO_CACHE_DIR="true"
 ENV VENV_DIR=${VENV_DIR:-"/root/volume/environment/venv"}
-ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/nightly/rocm6.0"}
+ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/rocm6.2"}
 
 # Install BTOP++
 

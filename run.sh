@@ -31,7 +31,7 @@ podman run -ditq --rm \
 	-w "/root/volume" \
 	\
 	-e VENV_DIR='/root/volume/environment/venv' \
-	-e PYTORCH_REPO='https://download.pytorch.org/whl/nightly/rocm6.0' \
+	-e PYTORCH_REPO='https://download.pytorch.org/whl/rocm6.2' \
 	-e PYTORCH_HIP_ALLOC_CONF='garbage_collection_threshold:0.9,max_split_size_mb:256' \
 	-e HSA_OVERRIDE_GFX_VERSION='10.3.0' \
 	\
