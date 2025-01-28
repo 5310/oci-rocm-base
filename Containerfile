@@ -35,9 +35,9 @@ LABEL RUN='\
 # Install the essential dependencies
 
 RUN <<-EOR
-	apt-get update
-	apt-get install -y bash curl tar nano git python3.10-venv libgoogle-perftools-dev
-	apt-get clean
+	apt update
+	apt install -y bash curl tar nano git python3.10-venv libgoogle-perftools-dev
+	apt clean
 	rm -rf /var/lib/apt/lists/*
 EOR
 
