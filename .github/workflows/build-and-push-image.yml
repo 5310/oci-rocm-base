@@ -16,39 +16,20 @@ env:
     REGISTRY_PASSWORD: ${{ github.token }}
 
 jobs:
-  push-ghcr:
-    name: Build and push image
+  build-push:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    permissions: write-all
 
-    steps:      
-      - name: Checkout Push to Registry action
-        uses: actions/checkout@main
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Generate Tag
-        run: |
-          echo "IMAGE_TAG=$(git rev-parse --short $GITHUB_SHA)" >> "$GITHUB_ENV"
-
-      - name: Build Image
-        id: build
-        run: |
-          podman --version
-          podman build --tag $IMAGE_NAME:$IMAGE_TAG --tag $IMAGE_NAME:latest .
-        
-      - name: Push To Registry
-        uses: redhat-actions/push-to-registry@main
-        id: push
+      - name: Use Podman Build and Push Action
+        uses: frozen-tapestry/podman-build-push-action@v1
         with:
-          image: ${{ env.IMAGE_NAME }}
+          login_registry: ghcr.io
+          login_username: ${{ env.REGISTRY_USER }}
+          login_password: ${{ env.REGISTRY_PASSWORD }}
+          dockerfile: ./Containerfile
           tags: ${{ env.IMAGE_TAG }} latest
-          registry: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
-          extra-args: |
-            --disable-content-trust
-
-      - name: Echo outputs
-        run: |
-          echo "${{ toJSON(steps.push.outputs) }}"
+          extra_args: --disable-content-trust
+          push: false
