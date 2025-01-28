@@ -10,7 +10,7 @@ on:
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_TAG:
+    IMAGE_TAG: latest
     IMAGE_REGISTRY: ghcr.io
     REGISTRY_USER: ${{ github.actor }}
     REGISTRY_PASSWORD: ${{ github.token }}
@@ -23,13 +23,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Use Podman Build and Push Action
-        uses: Frozen-Tapestry/container-action@v1
-        with:
-          login_registry: ghcr.io
-          login_username: ${{ env.REGISTRY_USER }}
-          login_password: ${{ env.REGISTRY_PASSWORD }}
-          dockerfile: ./Containerfile
-          tags: ${{ env.IMAGE_TAG }} latest
-          extra_args: --disable-content-trust
-          push: false
+      - name: Run command in container
+        run: |
+          echo "Running command within the container"
