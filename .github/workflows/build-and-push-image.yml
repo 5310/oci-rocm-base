@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron:  '0 0 * * 5' # every Friday
+    - cron:  '0 0 15 * *' # every 15th of the month
     
 env:
     IMAGE_NAME: rocm-base
