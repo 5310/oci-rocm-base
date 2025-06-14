@@ -121,7 +121,7 @@ RUN <<-EOR
 		        children;
 		        pane size=10 borderless=true name="resource-monitor" {
 		            command "btop"
-		            args "--utf-force" "-p" "1"
+		            args "-p" "1"
 		        }
 		        pane size=2 borderless=true {
 		            plugin location="zellij:status-bar"
