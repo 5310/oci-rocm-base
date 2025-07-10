@@ -116,6 +116,9 @@ RUN <<-EOR
 		default_shell "bash"
 		mirror_session true
 		mouse_mode true
+		env {
+		    LANG "en_US.UTF-8"
+		}
 		layout {
 		    default_tab_template {
 		        children;
