@@ -36,7 +36,7 @@ LABEL RUN='\
 
 RUN <<-EOR
 	apt update
-	apt install -y bash curl tar nano git python3-venv libgoogle-perftools-dev
+	apt install -y bash curl tar nano git software-properties-common python3-venv libgoogle-perftools-dev 
 	apt clean
 	rm -rf /var/lib/apt/lists/*
 EOR
@@ -51,9 +51,9 @@ ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/rocm6.2"}
 ARG BTOP_REPO="https://github.com/aristocratos/btop"
 
 RUN <<-EOR
-	add-apt-repository ppa:ubuntu-toolchain-r/test
-	apt update
+	add-apt-repository ppa:ubuntu-toolchain-r/test -y
 	apt install -y g++-15
+	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 150 --slave /usr/bin/g++ g++ /usr/bin/g++-15 --slave /usr/bin/gcov gcov /usr/bin/gcov-15
 	cd /tmp
 	git clone --depth 1 "$BTOP_REPO"
 	cd btop
