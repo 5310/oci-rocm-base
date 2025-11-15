@@ -67,46 +67,6 @@ RUN <<-EOR
 	cat ~/.config/btop/btop.conf
 EOR
 
-# # Install and setup Caddy
-
-# ARG CADDY_REPO="https://caddyserver.com/api/download?os=linux&arch=amd64"
-
-# RUN <<-EOR
-# 	curl -o /opt/caddy --location "$CADDY_REPO"
-# 	chmod +x /opt/caddy
-# 	ln -s /opt/caddy /usr/local/bin/
-# 	mkdir -p /etc/caddy/
-# 	cat <<-EOF > /etc/caddy/Caddyfile
-# 		respond "Hullo world!"
-# 	EOF
-# 	mkdir -p /etc/systemd/system/
-# 	cat <<-EOF > /etc/systemd/system/caddy.service
-# 		[Unit]
-# 		Description=Caddy
-# 		Documentation=https://caddyserver.com/docs/
-# 		After=network.target network-online.target
-# 		Requires=network-online.target
-
-# 		[Service]
-# 		Type=notify
-# 		ExecStart=/usr/local/bin/caddy run --environ --config /etc/caddy/Caddyfile
-# 		ExecReload=/usr/local/bin/caddy reload --config /etc/caddy/Caddyfile --force
-# 		TimeoutStopSec=5s
-# 		LimitNOFILE=1048576
-# 		PrivateTmp=true
-# 		ProtectSystem=full
-# 		AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-
-# 		[Install]
-# 		WantedBy=multi-user.target
-# 	EOF
-# EOR
-
-# EXPOSE 80
-# EXPOSE 443
-
-# Install and setup Zellij to launch with the shelll
-
 ARG ZELLIJ_REPO="https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz"
 
 RUN <<-EOR
