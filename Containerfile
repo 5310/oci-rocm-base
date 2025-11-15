@@ -36,7 +36,7 @@ LABEL RUN='\
 
 RUN <<-EOR
 	apt update
-	apt install -y bash curl tar nano git python3-venv libgoogle-perftools-dev g++-15
+	apt install -y bash curl tar nano git python3-venv libgoogle-perftools-dev g++-13
 	apt clean
 	rm -rf /var/lib/apt/lists/*
 EOR
