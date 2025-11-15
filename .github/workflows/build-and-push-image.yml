@@ -1,16 +1,13 @@
 name: Build and Push Image
   
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
   schedule:
     - cron:  '0 0 15 * *' # every 15th of the month
     
 env:
     IMAGE_NAME: rocm-base
-    IMAGE_TAG: # generated from commit later
+    # IMAGE_TAG: # generated from commit later
     IMAGE_REGISTRY: ghcr.io
     REGISTRY_REPO: ${{ github.repository }}
     REGISTRY_USER: ${{ github.actor }}
@@ -21,8 +18,6 @@ jobs:
   push-ghcr:
     name: Build and push image
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     permissions: write-all
 
     steps:      
