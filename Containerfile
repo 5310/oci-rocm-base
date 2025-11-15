@@ -36,7 +36,7 @@ LABEL RUN='\
 
 RUN <<-EOR
 	apt update
-	apt install -y bash curl tar nano git software-properties-common python3-venv libgoogle-perftools-dev 
+	apt install -y bash curl tar nano git python3-venv libgoogle-perftools-dev 
 	apt clean
 	rm -rf /var/lib/apt/lists/*
 EOR
@@ -49,13 +49,12 @@ ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/rocm6.2"}
 # Install BTOP++
 
 ARG BTOP_REPO="https://github.com/aristocratos/btop"
+ARG BTOP_BRANCH="v1.4.5" 
+# 1.4.5+ demands G++ 15 (C++ 25) and Ubuntu 24.04 only goes up to G++ 14
 
 RUN <<-EOR
-	add-apt-repository ppa:ubuntu-toolchain-r/test -y
-	apt install -y g++-15
-	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 150 --slave /usr/bin/g++ g++ /usr/bin/g++-15 --slave /usr/bin/gcov gcov /usr/bin/gcov-15
 	cd /tmp
-	git clone --depth 1 "$BTOP_REPO"
+	git clone --branch "$BTOP_BRANCH" --single-branch --depth 1 "$BTOP_REPO"
 	cd btop
 	make
 	chmod +x bin/btop
@@ -68,9 +67,6 @@ RUN <<-EOR
 		presets = "cpu:0:block cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default"
 	EOF
 	cat ~/.config/btop/btop.conf
-	apt remove -y g++-15
-	apt clean
-	rm -rf /var/lib/apt/lists/*
 EOR
 
 ARG ZELLIJ_REPO="https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz"
