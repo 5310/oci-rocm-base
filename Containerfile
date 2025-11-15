@@ -36,7 +36,7 @@ LABEL RUN='\
 
 RUN <<-EOR
 	apt update
-	apt install -y bash curl tar nano git python3-venv libgoogle-perftools-dev g++-14
+	apt install -y bash curl tar nano git python3-venv libgoogle-perftools-dev
 	apt clean
 	rm -rf /var/lib/apt/lists/*
 EOR
@@ -51,6 +51,9 @@ ENV PYTORCH_REPO=${PYTORCH_REPO:-"https://download.pytorch.org/whl/rocm6.2"}
 ARG BTOP_REPO="https://github.com/aristocratos/btop"
 
 RUN <<-EOR
+	add-apt-repository ppa:ubuntu-toolchain-r/test
+	apt update
+	apt install -y g++-15
 	cd /tmp
 	git clone --depth 1 "$BTOP_REPO"
 	cd btop
@@ -65,6 +68,9 @@ RUN <<-EOR
 		presets = "cpu:0:block cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default"
 	EOF
 	cat ~/.config/btop/btop.conf
+	apt remove -y g++-15
+	apt clean
+	rm -rf /var/lib/apt/lists/*
 EOR
 
 ARG ZELLIJ_REPO="https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz"
