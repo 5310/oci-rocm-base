@@ -58,7 +58,9 @@ RUN <<-EOR
 	cd btop
 	make
 	chmod +x bin/btop
+	ls bin
 	mv bin/btop /usr/local/bin
+	ls /usr/local/bin
 	cd /
 	rm -Rf /tmp/btop
 	mkdir -p ~/.config/btop/
