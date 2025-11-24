@@ -58,9 +58,7 @@ RUN <<-EOR
 	cd btop
 	make
 	chmod +x bin/btop
-	ls bin
 	mv bin/btop /usr/local/bin
-	ls /usr/local/bin
 	cd /
 	rm -Rf /tmp/btop
 	mkdir -p ~/.config/btop/
@@ -76,7 +74,6 @@ ARG ZELLIJ_REPO="https://github.com/zellij-org/zellij/releases/latest/download/z
 RUN <<-EOR
 	curl -L "$ZELLIJ_REPO" | tar -C /opt -xz
 	ln -s /opt/zellij /usr/local/bin/
-	ls /usr/local/bin
 	cat <<-EOF > ~/.zellijrc.kdl
 		default_shell "bash"
 		mirror_session true
