@@ -80,6 +80,7 @@ RUN <<-EOR
 		default_shell "bash"
 		mirror_session true
 		mouse_mode true
+		show_startup_tips false
 		env {
 		    LANG "en_US.UTF-8"
 		}
