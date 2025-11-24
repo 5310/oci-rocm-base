@@ -79,6 +79,7 @@ RUN <<-EOR
 		mirror_session true
 		mouse_mode true
 		show_startup_tips false
+		show_release_notes false
 		env {
 		    LANG "en_US.UTF-8"
 		}
