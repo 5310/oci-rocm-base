@@ -4,9 +4,9 @@
 
 ---
 
-Built from the [rocm/dev-ubuntu:22.04](https://hub.docker.com/r/rocm/dev-ubuntu-22.04) image. 
+Built from the [rocm/dev-ubuntu:24.04](https://hub.docker.com/r/rocm/dev-ubuntu-24.04) image. 
 
-Built for and tested with rootless [Podman](https://podman.io/); versions 4.5.1 (Steam Deck 3.5) and 4.9.2 (EndeavourOS).
+Built for and tested with rootless [Podman](https://podman.io/); versions 4.5.1 (Steam Deck 3.5), 4.9.2 (EndeavourOS), and 5.7.0 (NixOS 25.11)
 
 You might need to override the `HSA_OVERRIDE_GFX_VERSION` environment variable if you're on older or slightly obscure hardware.
 
